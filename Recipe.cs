@@ -393,6 +393,7 @@ namespace PROG6221_POE_PART_TWO
                 switch (ingredient.Unit)
                 {
                     case "Tablespoon/s":
+                        ingredient.Calories = ingredient.Calories *2;
                         if (ingredient.Quantity >= 8)
                         {
                             double numCups = Math.Floor(((ingredient.Quantity * 2) / 16));
@@ -412,6 +413,9 @@ namespace PROG6221_POE_PART_TWO
                         }
                         break;
                     case "Teaspoon/s":
+                        ingredient.Calories = ingredient.Calories * 2;
+
+
                         if (ingredient.Quantity >= 1.5)
                         {
                             double numTablespoons = Math.Floor(((ingredient.Quantity * 2) / 3));
@@ -436,6 +440,8 @@ namespace PROG6221_POE_PART_TWO
                     case "Large":
                     case "Extra-Large":
                         ingredient.Quantity *= 2;
+                        ingredient.Calories = ingredient.Calories * 2;
+
                         break;
                     default:
                         break;
@@ -450,6 +456,8 @@ namespace PROG6221_POE_PART_TWO
                 switch (ingredient.Unit)
                 {
                     case "Tablespoon/s":
+                        ingredient.Calories = ingredient.Calories * 3;
+
                         if (ingredient.Quantity > 5)
                         {
                             double numCups = Math.Floor(((ingredient.Quantity * 3) / 16));
@@ -469,6 +477,8 @@ namespace PROG6221_POE_PART_TWO
                         }
                         break;
                     case "Teaspoon/s":
+                        ingredient.Calories = ingredient.Calories * 3;
+
                         if (ingredient.Quantity == 1.0)
                         {
                             ingredient.Unit = "Tablespoon";
@@ -484,6 +494,8 @@ namespace PROG6221_POE_PART_TWO
                     case "Large":
                     case "Extra-Large":
                         ingredient.Quantity *= 3;
+                        ingredient.Calories = ingredient.Calories * 3;
+
                         break;
                     default:
                         break;
@@ -498,6 +510,8 @@ namespace PROG6221_POE_PART_TWO
                 switch (ingredient.Unit)
                 {
                     case "Tablespoon/s":
+                        ingredient.Calories = ingredient.Calories /2;
+
                         if (ingredient.Quantity > 1)
                         {
                             double numTablespoons = Math.Floor((ingredient.Quantity / 2));
@@ -517,9 +531,13 @@ namespace PROG6221_POE_PART_TWO
                         }
                         break;
                     case "Teaspoon/s":
+                        ingredient.Calories = ingredient.Calories / 2;
+
                         ingredient.Quantity /= 2;
                         break;
                     case "Cup/s":
+                        ingredient.Calories = ingredient.Calories / 2;
+
                         if (ingredient.Quantity > 1)
                         {
                             double numCups = Math.Floor((ingredient.Quantity / 2));
@@ -543,6 +561,8 @@ namespace PROG6221_POE_PART_TWO
                     case "Large":
                     case "Extra-Large":
                         ingredient.Quantity /= 2;
+                        ingredient.Calories = ingredient.Calories / 2;
+
                         break;
                     default:
                         break;
@@ -559,7 +579,7 @@ namespace PROG6221_POE_PART_TWO
 
             foreach (Ingredient ingredient in OriginalIngredientList)
             {
-                IngredientList.Add(new Ingredient { Name = ingredient.Name, Quantity = ingredient.Quantity, Unit = ingredient.Unit });
+                IngredientList.Add(new Ingredient { Name = ingredient.Name, Quantity = ingredient.Quantity, Unit = ingredient.Unit , FoodGroup=ingredient.FoodGroup,Calories=ingredient.Calories});
             }
 
             DisplayRecipeDetails();
