@@ -227,8 +227,8 @@ namespace PROG6221_POE_PART_TWO
                 }//while display until correct unit of measurement input
 
 
-                Ingredient ingredientdetails = new Ingredient { Name = ingredientName, Quantity = ingredientQuantity, Unit = ingredientUnit, FoodGroup = foodGroup };
-                    Ingredient ingredientdetailscopy = new Ingredient { Name = ingredientName, Quantity = ingredientQuantity, Unit = ingredientUnit, FoodGroup = foodGroup };
+                Ingredient ingredientdetails = new Ingredient { Name = ingredientName, Quantity = ingredientQuantity, Unit = ingredientUnit, FoodGroup = foodGroup, Calories=ingredientCalories };
+                    Ingredient ingredientdetailscopy = new Ingredient { Name = ingredientName, Quantity = ingredientQuantity, Unit = ingredientUnit, FoodGroup = foodGroup, Calories = ingredientCalories };
 
                     IngredientList.Add(ingredientdetails);
                     OriginalIngredientList.Add(ingredientdetailscopy);
@@ -284,7 +284,7 @@ namespace PROG6221_POE_PART_TWO
 
             foreach (Ingredient ingredient in IngredientList)
             {
-                Console.WriteLine($"* {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}");
+                Console.WriteLine($"* {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}\nFood Group: {ingredient.FoodGroup}\nCalories: {ingredient.Calories}\n");
             }
 
             Console.WriteLine("Steps:");
