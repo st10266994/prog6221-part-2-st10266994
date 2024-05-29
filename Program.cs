@@ -1,5 +1,5 @@
-﻿
-using PROG6221_POE_PART_TWO;
+﻿using PROG6221_POE_PART_TWO;
+using System;
 
 internal class Program
 {
@@ -15,16 +15,15 @@ internal class Program
     //SOURCE:https://github.com/fb-shaik/PROG6221-Group1-2024/blob/main/BurgersAndShakes_App/Program.cs
     //DATE ACCESSED: 12 APRIL 2024
 
-
     static void Main(string[] args)
     {
-
         MenuDisplay();
-    }//main
+    }
 
     static void MenuDisplay()
     {
-        Recipe recipe = new Recipe();
+        RecipeManagement recipeManager = new RecipeManagement();
+        Recipe recipe  = new Recipe();  
 
         while (true)
         {
@@ -46,33 +45,32 @@ internal class Program
             {
                 case "1":
                     {
-                        //enter method
-                        recipe.EnterRecipeDetails();
+                        // Enter recipe details
+                        recipeManager.AddRecipe();
                         break;
                     }
                 case "2":
                     {
-                        //display method
-                        recipe.DisplayRecipeDetails();
-
+                        // Display recipe details
+                        recipeManager.DisplayRecipes();
                         break;
                     }
                 case "3":
                     {
-                        //scale method
+                        // Scale recipe quantities
                         recipe.ScaleRecipeByFactorMenu();
                         break;
                     }
                 case "4":
                     {
-                        //reset method
+                        // Reset recipe values
                         recipe.ResetRecipeValues();
                         break;
                     }
                 case "5":
                     {
-                        //clear data method
-                        recipe.ClearRecipeData();
+                        // Clear recipe data
+                      recipe.ClearRecipeData();
                         break;
                     }
                 case "6":
@@ -80,24 +78,17 @@ internal class Program
                         Console.BackgroundColor = ConsoleColor.DarkBlue;
                         Console.WriteLine("Exiting Application. Thank you for using the Recipe Application.");
                         Console.ResetColor(); // Reset font color
-
                         return;
-
-                    }//exit method
+                    }
                 default:
-                    {//error-handling: if user enters any other input besides menu options (1-6), an error message will be displayed and the user will be prompted to re-enter a valid option
+                    {
+                        // Error handling for invalid menu options
                         Console.ForegroundColor = ConsoleColor.Red; // Set font color to red for error message
-
                         Console.WriteLine("*Invalid menu option entered. Please re-enter a valid choice (1-6).*\n\n");
                         Console.ResetColor(); // Reset font color
                         break;
                     }
-            }//switch
-        }//while- for menu display until exit
-
-
+            }
+        }
     }
-
-
-
 }

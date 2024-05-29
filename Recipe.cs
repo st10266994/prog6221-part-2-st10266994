@@ -6,12 +6,15 @@ namespace PROG6221_POE_PART_TWO
 {
     internal class Recipe
     {
-        private string? recipeName { get; set; }
-        private int numIngredients { get; set; }
+        public string? recipeName { get; set; }
+        public int numIngredients { get; set; }
         private int numSteps { get; set; }
         private List<string?> StepList = new List<string?>();
         private List<Ingredient> IngredientList = new List<Ingredient>();
         private List<Ingredient> OriginalIngredientList = new List<Ingredient>();
+
+        public delegate void RecipeCaloriesExceededHandler(string recipeName, double totalCalories);
+        public event RecipeCaloriesExceededHandler RecipeCaloriesExceeded;
 
         public void EnterRecipeDetails()
         {
@@ -271,7 +274,22 @@ namespace PROG6221_POE_PART_TWO
                 Console.ResetColor();
             
         }
+        public double CalculateTotalCalories()
+        {
+            double totalCalories = 0.0;
+            foreach (Ingredient ingredient in IngredientList)
+            {
+                totalCalories += ingredient.Calories;
+            }
 
+            if (totalCalories > 300)
+            {
+                // If the event is subscribed (not null), raise the event
+                RecipeCaloriesExceeded(recipeName, totalCalories);
+            }
+
+            return totalCalories;
+        }
         public void DisplayRecipeDetails()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -294,10 +312,15 @@ namespace PROG6221_POE_PART_TWO
                 Console.WriteLine($" {i + 1}. {StepList[i]}");
             }
 
+            // Calculate total calories using the CalculateTotalCalories method
+            double totalCalories = CalculateTotalCalories();
+            Console.WriteLine($"Total Calories: {totalCalories}");
+
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"....Recipe Details For {recipeName}....\n");
             Console.ResetColor();
         }
+
 
         public void ClearRecipeData()
         {
@@ -587,6 +610,10 @@ namespace PROG6221_POE_PART_TWO
             Console.WriteLine("......Reset Recipe Values......\n");
             Console.ResetColor();
         }
+
+
+       
+        
     }
 }
 
