@@ -322,7 +322,7 @@ namespace PROG6221_POE_PART_TWO
         }
 
 
-        public void ClearRecipeData()
+        public bool ClearRecipeData()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"......Clear Recipe Data for {recipeName}......");
@@ -363,12 +363,14 @@ namespace PROG6221_POE_PART_TWO
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"......Recipe Details Cleared......\n");
                 Console.ResetColor();
+                return true;  // Indicate that the recipe was cleared
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"......Clear Request Cancelled......\n");
                 Console.ResetColor();
+                return false; // Indicate that the recipe was not cleared
             }
         }
 

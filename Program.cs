@@ -58,7 +58,7 @@ internal class Program
                 case "3":
                     {
                         // Scale recipe quantities
-                        recipe.ScaleRecipeByFactorMenu();
+                        recipeManager.ScaleSelectedRecipe();
                         break;
                     }
                 case "4":
@@ -70,7 +70,7 @@ internal class Program
                 case "5":
                     {
                         // Clear recipe data
-                      recipe.ClearRecipeData();
+                        recipeManager.ClearSelectedRecipe();
                         break;
                     }
                 case "6":

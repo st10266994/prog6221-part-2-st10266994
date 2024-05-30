@@ -8,29 +8,64 @@ namespace PROG6221_POE_PART_TWO
 {
     internal class RecipeManagement
     {
-        private List<Recipe> recipes = new List<Recipe>();
+        private List<Recipe> recipe = new List<Recipe>();
 
-        public int RecipesCount => recipes.Count;
+        public int RecipesCount => recipe.Count;
 
         public void AddRecipe()
         {
             Recipe newRecipe = new Recipe();
             newRecipe.EnterRecipeDetails();
             newRecipe.RecipeCaloriesExceeded += HandleRecipeCaloriesExceeded;
-            recipes.Add(newRecipe);
+            recipe.Add(newRecipe);
         }
 
         public void DisplayRecipes()
         {
-            if (recipes.Count == 0)
+            if (recipe.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No recipes available.");
+                Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
                 Console.ResetColor();
                 return;
             }
 
-            var sortedRecipes = recipes.OrderBy(r => r.recipeName).ToList();
+            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Recipes:");
+            Console.ResetColor();
+
+            for (int i = 0; i < sortedRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {sortedRecipes[i].recipeName}");
+            }
+
+            Console.Write("Enter the Number of the Recipe you would like to Display: ");
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= sortedRecipes.Count)
+            {
+                sortedRecipes[choice - 1].DisplayRecipeDetails();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please enter a valid menu option.");
+                Console.ResetColor();
+            }
+        }
+
+
+        public void ScaleSelectedRecipe()
+        {
+            if (recipe.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No recipes available to scale.");
+                Console.ResetColor();
+                return;
+            }
+
+            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Recipes:");
@@ -39,10 +74,10 @@ namespace PROG6221_POE_PART_TWO
                 Console.WriteLine($"{i + 1}. {sortedRecipes[i].recipeName}");
             }
 
-            Console.Write("Enter the number of the recipe to display: ");
+            Console.Write("Enter the number of the recipe to scale: ");
             if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= sortedRecipes.Count)
             {
-                sortedRecipes[choice - 1].DisplayRecipeDetails();
+                sortedRecipes[choice - 1].ScaleRecipeByFactorMenu();
             }
             else
             {
@@ -52,8 +87,52 @@ namespace PROG6221_POE_PART_TWO
             }
         }
 
+        public void ClearSelectedRecipe()
+        {
+            if (recipe.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No recipes available to clear.");
+                Console.ResetColor();
+                return;
+            }
 
+            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Recipes:");
+            Console.ResetColor();
+            for (int i = 0; i < sortedRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {sortedRecipes[i].recipeName}");
+            }
+
+            Console.Write("Enter the number of the recipe to clear: ");
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= sortedRecipes.Count)
+            {
+                bool isCleared = sortedRecipes[choice - 1].ClearRecipeData();
+                if (isCleared)
+                {
+                    // Remove the cleared recipe from the original list
+                    recipe.Remove(sortedRecipes[choice - 1]);
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("The recipe has been cleared and removed from the list.");
+                    Console.ResetColor();
+
+                    // Reorder the list after removal
+                    sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
+
+              
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+                Console.ResetColor();
+            }
+        }
 
         private void HandleRecipeCaloriesExceeded(string recipeName, double totalCalories)
         {
