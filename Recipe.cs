@@ -4,14 +4,50 @@ using System.Collections.Generic;
 
 namespace PROG6221_POE_PART_TWO
 {
-    internal class Recipe
+    //CODE ATTRIBUTION
+    //SWITCH CASE
+    //AUTHOR: W3Schools
+    //SOURCE:https://www.w3schools.com/cs/cs_switch.php
+    //DATE ACCESSED: 12 APRIL 2024
+
+    //CODE ATTRIBUTION
+    //FONT COLOUR FOR SPECIFIC LINES
+    //AUTHOR: FATIMA SHAIK
+    //SOURCE:https://github.com/fb-shaik/PROG6221-Group1-2024/blob/main/BurgersAndShakes_App/Program.cs
+    //DATE ACCESSED: 12 APRIL 2024
+
+    //CODE ATTRIBUTION
+    //TRY CATCH 
+    //AUTHOR: FATIMA SHAIK
+    //SOURCE:https://github.com/fb-shaik/PROG6221-Group1-2024/blob/main/AddressBookApp/AddressBook.cs
+    //DATE ACCESSED: 13 APRIL 2024
+
+    //CODE ATTRIBUTION
+    //GENERIC COLLECTION LISTS<T> COLLECTION
+    //AUTHOR: FATIMA SHAIK
+    //SOURCE:https://github.com/fb-shaik/PROG6221-Group1-2024/blob/main/Generics_Library_App/LibraryManagementSystem.cs
+    //DATE ACCESSED: 28 MAY 2024
+
+    //CODE ATTRIBUTION
+    //GENERIC COLLECTION LISTS<T> COLLECTION
+    //AUTHOR: TutorialsTeacher
+    //SOURCE:https://www.tutorialsteacher.com/csharp/csharp-list#:~:text=C%23%20%2D%20List,Collections.
+    //DATE ACCESSED: 28 MAY 2024
+
+    //CODE ATTRIBUTION
+    //DELEGATE
+    //AUTHOR: GeeksForGeeks
+    //SOURCE:https://www.geeksforgeeks.org/c-sharp-delegates/
+    //DATE ACCESSED: 28 MAY 2024
+
+    public class Recipe
     {
         public string? recipeName { get; set; }
         public int numIngredients { get; set; }
-        private int numSteps { get; set; }
-        private List<string?> StepList = new List<string?>();
-        private List<Ingredient> IngredientList = new List<Ingredient>();
-        private List<Ingredient> OriginalIngredientList = new List<Ingredient>();
+        public int numSteps { get; set; }
+        public List<string?> StepList = new List<string?>();
+        public List<Ingredient> IngredientList = new List<Ingredient>();
+        public List<Ingredient> OriginalIngredientList = new List<Ingredient>();
 
         public delegate void RecipeCaloriesExceededHandler(string recipeName, double totalCalories);
         public event RecipeCaloriesExceededHandler RecipeCaloriesExceeded;
@@ -613,9 +649,13 @@ namespace PROG6221_POE_PART_TWO
             Console.ResetColor();
         }
 
+        //for test unit
+        public void AddIngredient(Ingredient ingredient)
+        {
+            IngredientList.Add(ingredient);
+        }
 
-       
-        
+
     }
 }
 

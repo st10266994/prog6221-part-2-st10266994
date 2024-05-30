@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 
 namespace PROG6221_POE_PART_TWO
 {
+    //CODE ATTRIBUTION
+    //GENERIC COLLECTION LISTS<T> COLLECTION
+    //AUTHOR: FATIMA SHAIK
+    //SOURCE:https://github.com/fb-shaik/PROG6221-Group1-2024/blob/main/Generics_Library_App/LibraryManagementSystem.cs
+    //DATE ACCESSED: 28 MAY 2024
+
+    //CODE ATTRIBUTION
+    //GENERIC COLLECTION LISTS<T> COLLECTION
+    //AUTHOR: TutorialsTeacher
+    //SOURCE:https://www.tutorialsteacher.com/csharp/csharp-list#:~:text=C%23%20%2D%20List,Collections.
+    //DATE ACCESSED: 28 MAY 2024
+
+    //CODE ATTRIBUTION
+    //DELEGATE
+    //AUTHOR: GeeksForGeeks
+    //SOURCE:https://www.geeksforgeeks.org/c-sharp-delegates/
+    //DATE ACCESSED: 28 MAY 2024
     internal class RecipeManagement
     {
         private List<Recipe> recipe = new List<Recipe>();
@@ -171,7 +188,7 @@ namespace PROG6221_POE_PART_TWO
         private void HandleRecipeCaloriesExceeded(string recipeName, double totalCalories)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Alert: Total Calories for recipe [{recipeName}] exceed 300.");
+            Console.WriteLine($"Alert: Total Calories for recipe [{recipeName}] exceed 300 calories. Total Calories is {totalCalories}");
             Console.ResetColor();
         }
     }
