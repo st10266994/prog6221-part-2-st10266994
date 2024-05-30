@@ -4,11 +4,17 @@ This is my new ReadMe:
 
 Additional in part two: 
 >Users can now add unlimited recipes
+
 >Users can view a list of their recipes in alphabetical order
+
 >Removal of array lists, the program now makes use of generic collection type T lists
+
 >A delegate for alerting the user when the total calories in a recipe they have added is over 300 calories
+
 >Allows the user to add the food group for each ingredient by choosing from a list of food groups displayed to them
+
 >Allows the user to add the calories for each ingredient
+
 >A unit test to test the calculate total calories method
 
 Main Menu: 
