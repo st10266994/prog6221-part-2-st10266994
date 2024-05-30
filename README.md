@@ -11,7 +11,7 @@ Additional in part two:
 -Allows the user to add the calories for each ingredient
 -A unit test to test the calculate total calories method
 
-Main Menu
+Main Menu: 
 When the program is launched the user is presented with the main menu ( displays until they choose to exit), where they can choose from the following options:
 *Add A New Recipe*
 Allows users to create a new recipe by entering a recipe name, adding ingredients and its details such as quanitity, unit of measurement, food group, and the calories for each ingredient.
