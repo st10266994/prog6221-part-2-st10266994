@@ -60,7 +60,7 @@ namespace PROG6221_POE_PART_TWO
             if (recipe.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No recipes available to scale.");
+                Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
                 Console.ResetColor();
                 return;
             }
@@ -69,12 +69,14 @@ namespace PROG6221_POE_PART_TWO
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Recipes:");
+            Console.ResetColor();
+
             for (int i = 0; i < sortedRecipes.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {sortedRecipes[i].recipeName}");
             }
 
-            Console.Write("Enter the number of the recipe to scale: ");
+            Console.Write("Enter the Number of the Recipe you would like to Scale: ");
             if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= sortedRecipes.Count)
             {
                 sortedRecipes[choice - 1].ScaleRecipeByFactorMenu();
@@ -92,7 +94,7 @@ namespace PROG6221_POE_PART_TWO
             if (recipe.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No recipes available to clear.");
+                Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
                 Console.ResetColor();
                 return;
             }
@@ -107,7 +109,7 @@ namespace PROG6221_POE_PART_TWO
                 Console.WriteLine($"{i + 1}. {sortedRecipes[i].recipeName}");
             }
 
-            Console.Write("Enter the number of the recipe to clear: ");
+            Console.Write("Enter the Number of the Recipe you would like to Clear: ");
             if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= sortedRecipes.Count)
             {
                 bool isCleared = sortedRecipes[choice - 1].ClearRecipeData();
@@ -117,7 +119,7 @@ namespace PROG6221_POE_PART_TWO
                     recipe.Remove(sortedRecipes[choice - 1]);
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("The recipe has been cleared and removed from the list.");
+                    Console.WriteLine("The Recipe has been cleared and removed from your recipe list.");
                     Console.ResetColor();
 
                     // Reorder the list after removal
@@ -129,7 +131,39 @@ namespace PROG6221_POE_PART_TWO
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Invalid input. Please enter a valid number.");
+                Console.WriteLine("Invalid input. Please enter a valid menu option.");
+                Console.ResetColor();
+            }
+        }
+        public void ResetSelectedRecipe()
+        {
+            if (recipe.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
+                Console.ResetColor();
+                return;
+            }
+
+            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Recipes:");
+            Console.ResetColor();
+            for (int i = 0; i < sortedRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {sortedRecipes[i].recipeName}");
+            }
+
+            Console.Write("Enter the Number of the Recipe you would like to Reset: ");
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= sortedRecipes.Count)
+            {
+                sortedRecipes[choice - 1].ResetRecipeValues();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please enter a valid menu option.");
                 Console.ResetColor();
             }
         }
@@ -137,7 +171,7 @@ namespace PROG6221_POE_PART_TWO
         private void HandleRecipeCaloriesExceeded(string recipeName, double totalCalories)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"WARNING: Calories for recipe '{recipeName}' exceed 300. Total Calories: {totalCalories}");
+            Console.WriteLine($"Alert: Total Calories for recipe [{recipeName}] exceed 300.");
             Console.ResetColor();
         }
     }

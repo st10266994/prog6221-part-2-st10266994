@@ -64,7 +64,7 @@ internal class Program
                 case "4":
                     {
                         // Reset recipe values
-                        recipe.ResetRecipeValues();
+                        recipeManager.ResetSelectedRecipe();
                         break;
                     }
                 case "5":
