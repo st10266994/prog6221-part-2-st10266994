@@ -25,12 +25,12 @@ namespace PROG6221_POE_PART_TWO
     //DATE ACCESSED: 28 MAY 2024
     internal class RecipeManagement
     {
-        private List<Recipe> recipe = new List<Recipe>();
+        private List<Recipe> recipe = new List<Recipe>();  // List to store recipes
 
-        public int RecipesCount => recipe.Count;
+        public int RecipesCount => recipe.Count; // var for counting the number of recipes in the recipe list
 
         public void AddRecipe()
-        {
+        {//adding a new recipe to the recipe list
             Recipe newRecipe = new Recipe();
             newRecipe.EnterRecipeDetails();
             newRecipe.RecipeCaloriesExceeded += HandleRecipeCaloriesExceeded;
@@ -38,8 +38,8 @@ namespace PROG6221_POE_PART_TWO
         }
 
         public void DisplayRecipes()
-        {
-            if (recipe.Count == 0)
+        {// displaying the list of recipes in our recipe list
+            if (recipe.Count == 0) //checking if user has enetered any recipes before performing action
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
@@ -47,7 +47,7 @@ namespace PROG6221_POE_PART_TWO
                 return;
             }
 
-            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
+            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList(); //displaying in alphabetical order
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Recipes:");
@@ -74,13 +74,15 @@ namespace PROG6221_POE_PART_TWO
 
         public void ScaleSelectedRecipe()
         {
-            if (recipe.Count == 0)
+            if (recipe.Count == 0) //checking if user has enetered any recipes before performing action
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
                 Console.ResetColor();
                 return;
             }
+
+            // displaying the list of recipes in our recipe list so that the user can choose which one they want to scale
 
             var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
 
@@ -108,13 +110,14 @@ namespace PROG6221_POE_PART_TWO
 
         public void ClearSelectedRecipe()
         {
-            if (recipe.Count == 0)
+            if (recipe.Count == 0) //checking if user has enetered any recipes before performing action
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
                 Console.ResetColor();
                 return;
             }
+            // displaying the list of recipes in our recipe list so that the user can choose which one they want to clear
 
             var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
 
@@ -154,15 +157,16 @@ namespace PROG6221_POE_PART_TWO
         }
         public void ResetSelectedRecipe()
         {
-            if (recipe.Count == 0)
+            if (recipe.Count == 0) //checking if user has enetered any recipes before performing action
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No Recipes have been entered yet. Please enter a recipe first.");
                 Console.ResetColor();
                 return;
             }
+            // displaying the list of recipes in our recipe list so that the user can choose which one they want to reset
 
-            var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
+                var sortedRecipes = recipe.OrderBy(r => r.recipeName).ToList();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Recipes:");
@@ -188,6 +192,7 @@ namespace PROG6221_POE_PART_TWO
         private void HandleRecipeCaloriesExceeded(string recipeName, double totalCalories)
         {
             Console.ForegroundColor = ConsoleColor.Red;
+            //displaying the alert for when the total calories of a recipe exceeds 300 calories
             Console.WriteLine($"Alert: Total Calories for recipe [{recipeName}] exceed 300 calories. Total Calories is {totalCalories}");
             Console.ResetColor();
         }

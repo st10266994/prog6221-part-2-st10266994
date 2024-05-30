@@ -42,13 +42,13 @@ namespace PROG6221_POE_PART_TWO
 
     public class Recipe
     {
-        public string? recipeName { get; set; }
-        public int numIngredients { get; set; }
-        public int numSteps { get; set; }
-        public List<string?> StepList = new List<string?>();
-        public List<Ingredient> IngredientList = new List<Ingredient>();
-        public List<Ingredient> OriginalIngredientList = new List<Ingredient>();
-
+        public string? recipeName { get; set; } //name of recipe
+        public int numIngredients { get; set; } //number of ingredients used in a recipe
+        public int numSteps { get; set; } // number of steps in a recipe
+        public List<string?> StepList = new List<string?>(); //list to store the steps
+        public List<Ingredient> IngredientList = new List<Ingredient>();//list to store the ingredient details for each recipe
+        public List<Ingredient> OriginalIngredientList = new List<Ingredient>();//copy of the list to store ingredient details for each ingredient, so that user can reset values after scaling
+        //delegate for alert when a recipes total calories exceed 300 calories
         public delegate void RecipeCaloriesExceededHandler(string recipeName, double totalCalories);
         public event RecipeCaloriesExceededHandler RecipeCaloriesExceeded;
 
@@ -56,10 +56,10 @@ namespace PROG6221_POE_PART_TWO
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("....Enter Recipe Details....");
-            Console.ResetColor();
+            Console.ResetColor();//reset font colour
 
             bool nameValid = false;
-            while (!nameValid)
+            while (!nameValid)//error-handling for blank recipe name
             {
                 Console.Write("\nPlease enter the Name of the Recipe: ");
                 recipeName = Console.ReadLine();
@@ -72,27 +72,28 @@ namespace PROG6221_POE_PART_TWO
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Recipe Name cannot be blank.");
-                    Console.ResetColor();
+                    Console.ResetColor(); //reset font colour
                 }
             }
-
+            //number of ingredients
             bool valid = false;
             while (!valid)
-            {
+            {// while invalid- reprompt user for correct input
                 try
-                {
+                {//error-handling
                     Console.Write("Please enter the Number of Ingredients used in the Recipe: ");
                     numIngredients = Convert.ToInt32(Console.ReadLine());
                     valid = true;
-                }
+                }//try
                 catch (FormatException)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Red; //set font colour to red for error message
                     Console.WriteLine("Error: Invalid number of Ingredients entered. Please enter a numeric value");
                     Console.ResetColor();
-                }
-            }
+                }//catch
+            }//while
 
+            //storing the details for each ingredient- name, quantity, units, food group, calories
             for (int i = 0; i < numIngredients; i++)
             {
                 double ingredientQuantity = 0.0;
@@ -101,30 +102,30 @@ namespace PROG6221_POE_PART_TWO
                 string? ingredientName = Console.ReadLine();
 
                 while (!validQuantity)
-                {
+                {// while invalid- reprompt user for correct input
                     try
-                    {
+                    {//error-handling
                         Console.Write($"Enter quantity of {ingredientName} needed: ");
-                        ingredientQuantity = Convert.ToDouble(Console.ReadLine());
-                        if (!(ingredientQuantity <= 0))
+                        ingredientQuantity = Convert.ToDouble(Console.ReadLine());// checks if user has entered a numeric amount
+                        if (!(ingredientQuantity <= 0)) // validation- user cannot enter 0 or a negative amount for quantity amount
                         {
                             validQuantity = true;
                         }
                         else
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.Red; //set font colour to red for error message
                             Console.WriteLine("Error: Invalid Quantity value entered. Quantity value must be greater than 0.");
                             Console.ResetColor();
                         }
-                    }
+                    }//try
                     catch (FormatException)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
                         Console.WriteLine("Error: Invalid Quantity value entered. Please enter a numeric value");
                         Console.ResetColor();
                     }
                 }
-
+                //unit of measurement
                 string ingredientUnit = "";
                 bool unitselection = false;
                 while (!unitselection)
@@ -169,13 +170,14 @@ namespace PROG6221_POE_PART_TWO
                             unitselection = true;
                             break;
                         default:
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
                             Console.WriteLine("*Invalid unit of measurement option entered. Please re-enter a valid choice (1-7).*");
                             Console.ResetColor();
                             break;
                     }
-                }//while
+                }//while - display until correct unit of measurement input
 
+                //number of calories in this ingredient
                 double ingredientCalories = 0.0;
                 bool validCalories = false;
                 while (!validCalories)
@@ -183,15 +185,24 @@ namespace PROG6221_POE_PART_TWO
                     try
                     {
                         Console.Write("Please enter the Number of Calories in this Ingredient: ");
-                       ingredientCalories= Convert.ToDouble(Console.ReadLine()); 
-                        validCalories = true;
-                    }
+                       ingredientCalories= Convert.ToDouble(Console.ReadLine());
+                        if (!(ingredientCalories < 0)) // validation- user cannot enter a negative amount for calories 
+                        {
+                            validCalories = true;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
+                            Console.WriteLine("Error: Invalid Calorie amount entered. Calorie amount cannot be negative.");
+                            Console.ResetColor();
+                        }
+                    }//try
                     catch (FormatException)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
                         Console.WriteLine("Error: Invalid number of Calories entered. Please enter a numeric value");
                         Console.ResetColor();
-                    }
+                    }//catch
                 }
                
 
@@ -199,7 +210,7 @@ namespace PROG6221_POE_PART_TWO
                 string foodGroup = "";
                 while (!foodGroupSelection)
                 {
-                    // New code for selecting food group
+                  //give user a menu for selecting the food group, instead of making them enter a food group by typing the word
                     Console.WriteLine($"Enter the food group for {ingredientName}:");
                     Console.WriteLine("1. Starchy foods");
                     Console.WriteLine("2. Vegetables and fruits");
@@ -257,7 +268,7 @@ namespace PROG6221_POE_PART_TWO
                                  }
                         default:
                             { 
-                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
                                 Console.WriteLine("*Invalid Food Group option entered. Please re-enter a valid choice (1-7).*");
                                 Console.ResetColor();
                                 break;
@@ -286,15 +297,15 @@ namespace PROG6221_POE_PART_TWO
                         }
                         else
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Error: Invalid number of Steps entered. Number of Steps must be greater than 0.");
+                            Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
+                        Console.WriteLine("Error: Invalid number of Steps entered. Number of Steps must be greater than 0.");
                             Console.ResetColor();
                         }
                     }
                     catch (FormatException)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Error: Invalid number of Steps entered. Please enter a numeric value");
+                        Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
+                    Console.WriteLine("Error: Invalid number of Steps entered. Please enter a numeric value");
                         Console.ResetColor();
                     }
                 }
@@ -320,26 +331,27 @@ namespace PROG6221_POE_PART_TWO
 
             if (totalCalories > 300)
             {
-                // If the event is subscribed (not null), raise the event
+               // if total is over 300, raise the event 
                 RecipeCaloriesExceeded(recipeName, totalCalories);
             }
 
             return totalCalories;
-        }
+        }//enter recipe details method
         public void DisplayRecipeDetails()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\n....Recipe Details For {recipeName}....");
-            Console.ResetColor();
+            Console.ResetColor();// reset font colour
 
             Console.WriteLine($"Number of Ingredients: {numIngredients}");
             Console.WriteLine($"Number of Steps: {numSteps}");
             Console.WriteLine("Ingredients:");
 
+            //display each ingredient (name, quantity, unit of measurement, food group, calories)
             foreach (Ingredient ingredient in IngredientList)
             {
                 Console.WriteLine($"* {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}\nFood Group: {ingredient.FoodGroup}\nCalories: {ingredient.Calories}\n");
-            }
+            }//end ingredient display
 
             Console.WriteLine("Steps:");
 
@@ -348,14 +360,16 @@ namespace PROG6221_POE_PART_TWO
                 Console.WriteLine($" {i + 1}. {StepList[i]}");
             }
 
-            // Calculate total calories using the CalculateTotalCalories method
+            // calculate total calories in the recipe using the CalculateTotalCalories method
             double totalCalories = CalculateTotalCalories();
+
+            //display total calories
             Console.WriteLine($"Total Calories: {totalCalories}");
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"....Recipe Details For {recipeName}....\n");
             Console.ResetColor();
-        }
+        }//display method
 
 
         public bool ClearRecipeData()
@@ -382,14 +396,14 @@ namespace PROG6221_POE_PART_TWO
                         userFeedback = true;
                         break;
                     default:
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
                         Console.WriteLine("*Error: Please re-enter a valid choice (1-2).*");
                         Console.ResetColor();
                         break;
                 }
             }
 
-            if (clearRecipe)
+            if (clearRecipe)// if users response is YES: clear data
             {
                 recipeName = null;
                 numIngredients = 0;
@@ -401,14 +415,14 @@ namespace PROG6221_POE_PART_TWO
                 Console.ResetColor();
                 return true;  // Indicate that the recipe was cleared
             }
-            else
+            else // if users respone is NO: cancel clear data request
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"......Clear Request Cancelled......\n");
                 Console.ResetColor();
                 return false; // Indicate that the recipe was not cleared
             }
-        }
+        }//clear recipe data method
 
         public void ScaleRecipeByFactorMenu()
         {
@@ -424,28 +438,40 @@ namespace PROG6221_POE_PART_TWO
             switch (Console.ReadLine())
             {
                 case "1":
-                    ScaleRecipeByHalf();
-                    DisplayRecipeDetails();
-                    break;
+                    //scale by half method
+                    {
+                        ScaleRecipeByHalf();
+                        DisplayRecipeDetails();
+                        break;
+                    }
                 case "2":
-                    ScaleRecipeByDouble();
-                    DisplayRecipeDetails();
-                    break;
+                    {
+                        //scale by double method
+                        ScaleRecipeByDouble();
+                        DisplayRecipeDetails();
+                        break;
+                    }
                 case "3":
-                    ScaleRecipeByTriple();
-                    DisplayRecipeDetails();
-                    break;
+                    {
+                        //scale by triple method
+                        ScaleRecipeByTriple();
+                        DisplayRecipeDetails();
+                        break;
+                    }
                 default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("*Invalid menu option entered. Please re-enter a valid choice (1-3).*");
-                    Console.ResetColor();
-                    break;
+                    {
+                    //error-handling: if user enters any other input besides menu options (1-3), an error message will be displayed and the user will be taken back to the main menu.
+                            Console.ForegroundColor = ConsoleColor.Red;//set font colour to red for error message
+                        Console.WriteLine("*Invalid menu option entered. Please re-enter a valid choice (1-3).*");
+                        Console.ResetColor();
+                        break;
+                    }
             }
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("......Scale Recipe......\n");
             Console.ResetColor();
-        }
+        }//scale recipe by a factor method
 
         public void ScaleRecipeByDouble()
         {
@@ -454,44 +480,52 @@ namespace PROG6221_POE_PART_TWO
                 switch (ingredient.Unit)
                 {
                     case "Tablespoon/s":
-                        ingredient.Calories = ingredient.Calories *2;
-                        if (ingredient.Quantity >= 8)
+                        
+                        ingredient.Calories = ingredient.Calories * 2; // double calories when scaling by a factor of 2
+                        if (ingredient.Quantity >= 8) //if above 8 - doubling by 8 or more will require a unit change
+
                         {
-                            double numCups = Math.Floor(((ingredient.Quantity * 2) / 16));
-                            int remainderTablespoons = Convert.ToInt32(((ingredient.Quantity * 2) % 16));
+                            double numCups = Math.Floor(((ingredient.Quantity * 2) / 16)); //double then divide by 16 as 16 tablespoons make one cup
+
+                            int remainderTablespoons = Convert.ToInt32(((ingredient.Quantity * 2) % 16)); //get remainder tablespoons
                             if (remainderTablespoons > 0)
                             {
                                 ingredient.Quantity = numCups;
-                                ingredient.Unit = $"Cup/s and {remainderTablespoons} Tablespoon/s of";
+                                ingredient.Unit = $"Cup/s and {remainderTablespoons} Tablespoon/s of"; //change unit to cups and add remainder to unit 
                                 break;
-                            }
+                            } //if it doesnt have a remainder just need to output the scaled quantity and unit change
+
                             ingredient.Quantity = numCups;
                             ingredient.Unit = "Cup/s";
                         }
                         else
-                        {
+                        {  //if its below 8 and scaling it by 2 wont require a unit of measurement change, just change the quantity according to scale 
+
                             ingredient.Quantity *= 2;
                         }
-                        break;
+                        break; //tablespoon
                     case "Teaspoon/s":
-                        ingredient.Calories = ingredient.Calories * 2;
+                        ingredient.Calories = ingredient.Calories * 2; // double calories when scaling by a factor of 2
 
 
                         if (ingredient.Quantity >= 1.5)
                         {
-                            double numTablespoons = Math.Floor(((ingredient.Quantity * 2) / 3));
-                            int remainderTeaspoons = Convert.ToInt32(((ingredient.Quantity * 2) % 3));
+                            double numTablespoons = Math.Floor(((ingredient.Quantity * 2) / 3)); //double then divide by 3 as 3 teaspoons make one tablespoon
+                            int remainderTeaspoons = Convert.ToInt32(((ingredient.Quantity * 2) % 3)); //get remainder teaspoons
                             if (remainderTeaspoons > 0)
                             {
                                 ingredient.Quantity = numTablespoons;
                                 ingredient.Unit = $"Tablespoon/s and {remainderTeaspoons} Teaspoon/s of";
                                 break;
-                            }
+                            } 
+                            //if it doesnt have a remainder just need to output the scaled quantity and unit change
+
                             ingredient.Quantity = numTablespoons;
                             ingredient.Unit = "Tablespoon/s";
                         }
                         else
                         {
+                            //if its below 1.5 and scaling it by 2 wont require a unit of measurement change, just change the quantity according to scale
                             ingredient.Quantity *= 2;
                         }
                         break;
@@ -501,7 +535,7 @@ namespace PROG6221_POE_PART_TWO
                     case "Large":
                     case "Extra-Large":
                         ingredient.Quantity *= 2;
-                        ingredient.Calories = ingredient.Calories * 2;
+                        ingredient.Calories = ingredient.Calories * 2; // double calories when scaling by a factor of 2
 
                         break;
                     default:
@@ -517,30 +551,34 @@ namespace PROG6221_POE_PART_TWO
                 switch (ingredient.Unit)
                 {
                     case "Tablespoon/s":
-                        ingredient.Calories = ingredient.Calories * 3;
+                        ingredient.Calories = ingredient.Calories * 3; // triple calories when scaling by a factor of 3
 
-                        if (ingredient.Quantity > 5)
+                        if (ingredient.Quantity > 5) //if above 5 - tripling more than 5 tablespoons will require a unit change to cups
+
                         {
-                            double numCups = Math.Floor(((ingredient.Quantity * 3) / 16));
+                            double numCups = Math.Floor(((ingredient.Quantity * 3) / 16)); //triple then divide by 16 as 16 tablespoons make one cup
+
                             int remainderTablespoons = Convert.ToInt32(((ingredient.Quantity * 3) % 16));
                             if (remainderTablespoons > 0)
                             {
                                 ingredient.Quantity = numCups;
-                                ingredient.Unit = $"Cup/s and {remainderTablespoons} Tablespoon/s of";
+                                ingredient.Unit = $"Cup/s and {remainderTablespoons} Tablespoon/s of"; //get remainder tablespoons
                                 break;
                             }
+                            //if it doesnt have a remainder just need to output the scaled quantity and unit change
+
                             ingredient.Quantity = numCups;
                             ingredient.Unit = "Cup/s";
                         }
                         else
-                        {
+                        { //if its less than 5 and scaling it by 3 wont require a unit of measurement change, just change the quantity according to scale 
                             ingredient.Quantity *= 3;
                         }
                         break;
                     case "Teaspoon/s":
-                        ingredient.Calories = ingredient.Calories * 3;
+                        ingredient.Calories = ingredient.Calories * 3; // triple calories when scaling by a factor of 3
 
-                        if (ingredient.Quantity == 1.0)
+                        if (ingredient.Quantity == 1.0) //no need to perform any calculation when tripiling as when tripiling you need to multiply number of teaspoons by 3, and and every 3 teaspoons makes one tablespoon, therefore it cancels out 
                         {
                             ingredient.Unit = "Tablespoon";
                         }
@@ -555,14 +593,14 @@ namespace PROG6221_POE_PART_TWO
                     case "Large":
                     case "Extra-Large":
                         ingredient.Quantity *= 3;
-                        ingredient.Calories = ingredient.Calories * 3;
+                        ingredient.Calories = ingredient.Calories * 3; // triple calories when scaling by a factor of 3
 
                         break;
                     default:
                         break;
-                }
-            }
-        }
+                }//switch
+            } //for
+        }//scale by triple method
 
         public void ScaleRecipeByHalf()
         {
@@ -571,52 +609,64 @@ namespace PROG6221_POE_PART_TWO
                 switch (ingredient.Unit)
                 {
                     case "Tablespoon/s":
-                        ingredient.Calories = ingredient.Calories /2;
+                        ingredient.Calories = ingredient.Calories /2; // half calories when scaling by a factor of half
 
-                        if (ingredient.Quantity > 1)
+                        if (ingredient.Quantity > 1) //if above 1 tablespoon
+
                         {
-                            double numTablespoons = Math.Floor((ingredient.Quantity / 2));
-                            double remainderTeaspoons = (((ingredient.Quantity % 2) * 1.5));
-                            if (remainderTeaspoons > 0)
+                            double numTablespoons = Math.Floor((ingredient.Quantity / 2));  //divide by 2 (scale by half)
+
+                            double remainderTeaspoons = (((ingredient.Quantity % 2) * 1.5));  //get remainder teaspoons
+
+                            if (remainderTeaspoons > 0)  //if there is a remainder after scaling
+
                             {
                                 ingredient.Quantity = numTablespoons;
-                                ingredient.Unit = $"Tablespoon/s and {remainderTeaspoons} Teaspoon/s of";
+                                ingredient.Unit = $"Tablespoon/s and {remainderTeaspoons} Teaspoon/s of"; //add remainder tablespoons to unit 
                                 break;
                             }
+                            //if it doesnt have a remainder just need to output the scaled quantity 
                             ingredient.Quantity = numTablespoons;
                         }
                         else
                         {
+                            //if one or less tablespoons then  divide by 2 (scale by half) and multiply by 3 to get number of teaspoons
                             ingredient.Quantity = ((ingredient.Quantity / 2) * 3);
                             ingredient.Unit = "Teaspoons";
                         }
-                        break;
+                        break;//tablespoon
+
                     case "Teaspoon/s":
-                        ingredient.Calories = ingredient.Calories / 2;
+                        ingredient.Calories = ingredient.Calories / 2;// half calories when scaling by a factor of half
 
                         ingredient.Quantity /= 2;
-                        break;
+                        break;//teaspoon
                     case "Cup/s":
-                        ingredient.Calories = ingredient.Calories / 2;
+                        ingredient.Calories = ingredient.Calories / 2;// half calories when scaling by a factor of half
 
-                        if (ingredient.Quantity > 1)
+                        if (ingredient.Quantity > 1) //if above 1 
+
                         {
-                            double numCups = Math.Floor((ingredient.Quantity / 2));
-                            int remainderTablespoons = Convert.ToInt32(((ingredient.Quantity % 2) * 8));
+                            double numCups = Math.Floor((ingredient.Quantity / 2)); //divide by 2 (scale by half)
+                            int remainderTablespoons = Convert.ToInt32(((ingredient.Quantity % 2) * 8)); //get remainder tablespoons
                             if (remainderTablespoons > 0)
                             {
                                 ingredient.Quantity = numCups;
-                                ingredient.Unit = $"Cup/s and {remainderTablespoons} Tablespoon/s of";
+                                ingredient.Unit = $"Cup/s and {remainderTablespoons} Tablespoon/s of"; //add remainder tablespoons to unit 
                                 break;
                             }
+                            //if it doesnt have a remainder just need to output the scaled quantity 
                             ingredient.Quantity = numCups;
                         }
                         else
                         {
+                            //if one or less cups then  divide by 2 (scale by half) and multiply by 16 to get number of tablespoons
+
                             ingredient.Quantity = ((ingredient.Quantity / 2) * 16);
                             ingredient.Unit = "Tablespoons";
                         }
-                        break;
+                        break;//cup/s
+
                     case "Small":
                     case "Medium":
                     case "Large":
@@ -627,27 +677,31 @@ namespace PROG6221_POE_PART_TWO
                         break;
                     default:
                         break;
-                }
-            }
-        }
+                }//switch
+            }//for
+        }//scale by half method
 
         public void ResetRecipeValues()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("......Reset Recipe Values......");
             Console.ResetColor();
-            IngredientList.Clear();
+            IngredientList.Clear(); //clear all values in ingredient list that might have been changed when scaling
+
 
             foreach (Ingredient ingredient in OriginalIngredientList)
             {
+                //replace the scaled values with the orginal values stored in a copy of the ingredient list
+
                 IngredientList.Add(new Ingredient { Name = ingredient.Name, Quantity = ingredient.Quantity, Unit = ingredient.Unit , FoodGroup=ingredient.FoodGroup,Calories=ingredient.Calories});
-            }
+            }//for
 
             DisplayRecipeDetails();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("......Reset Recipe Values......\n");
             Console.ResetColor();
-        }
+        }//reset recipe values method
+
 
         //for test unit
         public void AddIngredient(Ingredient ingredient)
